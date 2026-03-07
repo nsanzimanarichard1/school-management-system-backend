@@ -309,6 +309,7 @@ async function main() {
 main()
   .catch((e) => {
     console.error('❌ Error seeding database:', e);
+    // @ts-ignore - process is available in Node.js runtime
     process.exit(1);
   })
   .finally(async () => {

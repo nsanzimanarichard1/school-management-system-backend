@@ -63,9 +63,9 @@ export class AcademicRecordsDTO {
   timetable: TimetableDTO[];
 
   static create(
-    grades: Grade[],
+    grades: (Grade & { subject: Subject })[],
     attendance: Attendance[],
-    timetable: Timetable[]
+    timetable: (Timetable & { subject: Subject; teacher: Teacher & { user: User } })[]
   ): AcademicRecordsDTO {
     return {
       grades: grades.map(g => GradeDTO.fromGrade(g)),

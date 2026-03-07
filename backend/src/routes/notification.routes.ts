@@ -9,7 +9,7 @@ const router = Router();
  * /api/notifications:
  *   get:
  *     summary: Get all notifications
- *     tags: [Notifications]
+ *     tags: [Z - Notifications (All Users)]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -25,7 +25,7 @@ router.get('/', authenticate, notificationController.getAll);
  * /api/notifications/unread:
  *   get:
  *     summary: Get unread notifications
- *     tags: [Notifications]
+ *     tags: [Z - Notifications (All Users)]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -41,7 +41,7 @@ router.get('/unread', authenticate, notificationController.getUnread);
  * /api/notifications/{id}/read:
  *   patch:
  *     summary: Mark notification as read
- *     tags: [Notifications]
+ *     tags: [Z - Notifications (All Users)]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -63,7 +63,7 @@ router.patch('/:id/read', authenticate, notificationController.markAsRead);
  * /api/notifications/read-all:
  *   patch:
  *     summary: Mark all notifications as read
- *     tags: [Notifications]
+ *     tags: [Z - Notifications (All Users)]
  *     security:
  *       - bearerAuth: []
  *     responses:

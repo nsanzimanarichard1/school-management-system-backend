@@ -6,6 +6,10 @@ export interface AuthRequest extends Request {
   userId?: string;
   userRole?: string;
   deviceId?: string;
+  user?: {
+    role: string;
+    teacherId?: string;
+  };
 }
 
 export const authenticate = async (
@@ -45,6 +49,17 @@ export const authenticate = async (
     req.userId = decoded.userId;
     req.userRole = decoded.role;
     req.deviceId = decoded.deviceId;
+    req.user = { role: decoded.role };
+
+    // If teacher, get teacherId
+    if (decoded.role === 'TEACHER') {
+      const teacher = await prisma.teacher.findUnique({
+        where: { userId: decoded.userId }
+      });
+      if (teacher) {
+        req.user.teacherId = teacher.id;
+      }
+    }
 
     next();
   } catch (error) {

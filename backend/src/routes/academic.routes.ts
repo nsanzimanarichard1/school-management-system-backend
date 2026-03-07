@@ -6,10 +6,24 @@ const router = Router();
 
 /**
  * @swagger
+ * /api/academic/profile:
+ *   get:
+ *     summary: Get student profile (class, subjects, teacher)
+ *     tags: [Student/Parent - Academic]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Student profile retrieved
+ */
+router.get('/profile', authenticate, authorize('STUDENT', 'PARENT'), academicController.getStudentProfile);
+
+/**
+ * @swagger
  * /api/academic/grades:
  *   get:
  *     summary: Get student grades
- *     tags: [Academic]
+ *     tags: [Student/Parent - Academic]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -25,7 +39,7 @@ router.get('/grades', authenticate, authorize('STUDENT', 'PARENT'), academicCont
  * /api/academic/attendance:
  *   get:
  *     summary: Get student attendance records
- *     tags: [Academic]
+ *     tags: [Student/Parent - Academic]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -41,7 +55,7 @@ router.get('/attendance', authenticate, authorize('STUDENT', 'PARENT'), academic
  * /api/academic/timetable:
  *   get:
  *     summary: Get class timetable
- *     tags: [Academic]
+ *     tags: [Student/Parent - Academic]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -57,7 +71,7 @@ router.get('/timetable', authenticate, authorize('STUDENT', 'PARENT'), academicC
  * /api/academic/records:
  *   get:
  *     summary: Get all academic records (grades, attendance, timetable)
- *     tags: [Academic]
+ *     tags: [Student/Parent - Academic]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -67,5 +81,21 @@ router.get('/timetable', authenticate, authorize('STUDENT', 'PARENT'), academicC
  *         description: Unauthorized
  */
 router.get('/records', authenticate, authorize('STUDENT', 'PARENT'), academicController.getAcademicRecords);
+
+/**
+ * @swagger
+ * /api/academic/statistics:
+ *   get:
+ *     summary: Get academic statistics (average grade, attendance rate, etc.)
+ *     tags: [Student/Parent - Academic]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Statistics retrieved
+ *       401:
+ *         description: Unauthorized
+ */
+router.get('/statistics', authenticate, authorize('STUDENT', 'PARENT'), academicController.getAcademicStatistics);
 
 export default router;

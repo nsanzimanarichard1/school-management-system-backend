@@ -11,6 +11,7 @@ import feeRoutes from './routes/fee.routes';
 import academicRoutes from './routes/academic.routes';
 import notificationRoutes from './routes/notification.routes';
 import adminRoutes from './routes/admin.routes';
+import teacherRoutes from './routes/teacher.routes';
 
 const app: Application = express();
 
@@ -38,6 +39,7 @@ app.use('/api/fees', feeRoutes);
 app.use('/api/academic', academicRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/teacher', teacherRoutes);
 
 // Health Check with Database Connection
 app.get('/health', async (req, res) => {
