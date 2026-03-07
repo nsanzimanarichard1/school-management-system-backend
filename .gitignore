@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables (SENSITIVE)
+.env
+.env.local
+.env.production
+.env.development
+*.env
+
+# Build outputs
+dist/
+build/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Prisma
+prisma/migrations/**/migration.sql
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Secrets (CRITICAL)
+*.pem
+*.key
+*.cert
+secrets/
+credentials/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Production
+.vercel
+.netlify

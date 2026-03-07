@@ -1,0 +1,201 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+  PARENT
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAW
+}
+
+enum TransactionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+enum NotificationType {
+  PAYMENT_CONFIRMATION
+  REFUND_STATUS
+  LOW_BALANCE
+  DEVICE_VERIFIED
+  LOGIN_SUCCESS
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+
+  devices Device[]
+  student Student?
+  teacher Teacher?
+  parent  Parent?
+
+  processedTransactions FeeTransaction[] @relation("ProcessedTransactions")
+  notifications         Notification[]
+}
+
+model Device {
+  id        String   @id @default(uuid())
+  deviceId  String
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Parent {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  students Student[]
+}
+
+model Teacher {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  classes   Class[]
+  timetable Timetable[]
+}
+
+model Subject {
+  id   String @id @default(uuid())
+  name String
+  code String @unique
+
+  timetable Timetable[]
+  grades    Grade[]
+}
+
+model Class {
+  id   String @id @default(uuid())
+  name String
+
+  teacherId String?
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+
+  students  Student[]
+  timetable Timetable[]
+}
+
+model Student {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  parentId String?
+  parent   Parent? @relation(fields: [parentId], references: [id])
+
+  classId String?
+  class   Class?  @relation(fields: [classId], references: [id])
+
+  grades     Grade[]
+  attendance Attendance[]
+  fee        Fee?
+}
+
+model Timetable {
+  id        String  @id @default(uuid())
+  day       String
+  startTime String
+  endTime   String
+  room      String?
+
+  classId String
+  class   Class  @relation(fields: [classId], references: [id])
+
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id])
+
+  teacherId String
+  teacher   Teacher @relation(fields: [teacherId], references: [id])
+}
+
+model Fee {
+  id                  String @id @default(uuid())
+  balance             Float  @default(0)
+  lowBalanceThreshold Float  @default(1000)
+
+  studentId String  @unique
+  student   Student @relation(fields: [studentId], references: [id])
+
+  transactions FeeTransaction[]
+}
+
+model FeeTransaction {
+  id          String            @id @default(uuid())
+  type        TransactionType
+  amount      Float
+  status      TransactionStatus @default(PENDING)
+  description String?
+  createdAt   DateTime          @default(now())
+  processedAt DateTime?
+
+  feeId String
+  fee   Fee    @relation(fields: [feeId], references: [id])
+
+  processedBy String?
+  processor   User?   @relation("ProcessedTransactions", fields: [processedBy], references: [id])
+}
+
+model Grade {
+  id    String @id @default(uuid())
+  score Float
+  term  String
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id])
+}
+
+model Attendance {
+  id     String           @id @default(uuid())
+  date   DateTime
+  status AttendanceStatus
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+}
+
+// Notifications
+model Notification {
+  id        String           @id @default(uuid())
+  type      NotificationType
+  message   String
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
