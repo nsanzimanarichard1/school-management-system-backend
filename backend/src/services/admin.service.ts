@@ -263,6 +263,69 @@ export class AdminService {
       }
     });
   }
+
+  // Get all users
+  async getAllUsers() {
+    return await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        devices: {
+          select: {
+            verified: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+  }
+
+  // Verify user (verify all their devices)
+  async verifyUser(userId: string) {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new Error('User not found');
+
+    await prisma.device.updateMany({
+      where: { userId },
+      data: { verified: true }
+    });
+
+    await notificationService.create(
+      userId,
+      'ACCOUNT_VERIFIED',
+      'Your account has been verified by admin. You can now access all features.'
+    );
+
+    return user;
+  }
+
+  // Delete user
+  async deleteUser(userId: string) {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new Error('User not found');
+
+    // Delete related records based on role
+    if (user.role === 'STUDENT') {
+      await prisma.student.deleteMany({ where: { userId } });
+    } else if (user.role === 'TEACHER') {
+      await prisma.teacher.deleteMany({ where: { userId } });
+    } else if (user.role === 'PARENT') {
+      await prisma.parent.deleteMany({ where: { userId } });
+    }
+
+    await prisma.user.delete({ where: { id: userId } });
+  }
+
+  // Delete class
+  async deleteClass(classId: string) {
+    const classExists = await prisma.class.findUnique({ where: { id: classId } });
+    if (!classExists) throw new Error('Class not found');
+
+    await prisma.class.delete({ where: { id: classId } });
+  }
 }
 
 export default new AdminService();

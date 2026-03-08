@@ -470,6 +470,80 @@ router.get('/dashboard/stats', authenticate, authorize('ADMIN'), adminController
 
 /**
  * @swagger
+ * /api/admin/users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Admin - User Management]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Users retrieved
+ */
+router.get('/users', authenticate, authorize('ADMIN'), adminController.getAllUsers);
+
+/**
+ * @swagger
+ * /api/admin/users/{id}/verify:
+ *   put:
+ *     summary: Verify a user
+ *     tags: [Admin - User Management]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User verified
+ */
+router.put('/users/:id/verify', authenticate, authorize('ADMIN'), adminController.verifyUser);
+
+/**
+ * @swagger
+ * /api/admin/users/{id}:
+ *   delete:
+ *     summary: Delete a user
+ *     tags: [Admin - User Management]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User deleted
+ */
+router.delete('/users/:id', authenticate, authorize('ADMIN'), adminController.deleteUser);
+
+/**
+ * @swagger
+ * /api/admin/classes/{id}:
+ *   delete:
+ *     summary: Delete a class
+ *     tags: [Admin - Academic Setup]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Class deleted
+ */
+router.delete('/classes/:id', authenticate, authorize('ADMIN'), adminController.deleteClass);
+
+/**
+ * @swagger
  * /api/admin/students:
  *   get:
  *     summary: Get all students

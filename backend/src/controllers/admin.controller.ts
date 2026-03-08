@@ -45,6 +45,29 @@ export class AdminController {
     const classes = await adminService.getAllClasses();
     res.json({ success: true, data: classes });
   });
+
+  getAllUsers = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const users = await adminService.getAllUsers();
+    res.json({ success: true, data: users });
+  });
+
+  verifyUser = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const user = await adminService.verifyUser(id);
+    res.json({ success: true, message: 'User verified successfully', data: user });
+  });
+
+  deleteUser = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    await adminService.deleteUser(id);
+    res.json({ success: true, message: 'User deleted successfully' });
+  });
+
+  deleteClass = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    await adminService.deleteClass(id);
+    res.json({ success: true, message: 'Class deleted successfully' });
+  });
 }
 
 export default new AdminController();
