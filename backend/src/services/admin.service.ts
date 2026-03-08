@@ -403,10 +403,14 @@ export class AdminService {
     const teacher = await prisma.teacher.findUnique({ where: { id: teacherId }, include: { user: true } });
     if (!teacher) throw new Error('Teacher not found');
 
-    if (data.name || data.email) {
+    const updateData: any = {};
+    if (data.name) updateData.name = data.name;
+    if (data.email) updateData.email = data.email;
+
+    if (Object.keys(updateData).length > 0) {
       await prisma.user.update({
         where: { id: teacher.userId },
-        data: { name: data.name, email: data.email }
+        data: updateData
       });
     }
 
@@ -427,17 +431,24 @@ export class AdminService {
     const student = await prisma.student.findUnique({ where: { id: studentId }, include: { user: true } });
     if (!student) throw new Error('Student not found');
 
-    if (data.name || data.email) {
+    const userUpdateData: any = {};
+    if (data.name) userUpdateData.name = data.name;
+    if (data.email) userUpdateData.email = data.email;
+
+    if (Object.keys(userUpdateData).length > 0) {
       await prisma.user.update({
         where: { id: student.userId },
-        data: { name: data.name, email: data.email }
+        data: userUpdateData
       });
     }
 
-    if (data.classId) {
+    const studentUpdateData: any = {};
+    if (data.classId !== undefined) studentUpdateData.classId = data.classId;
+
+    if (Object.keys(studentUpdateData).length > 0) {
       await prisma.student.update({
         where: { id: studentId },
-        data: { classId: data.classId }
+        data: studentUpdateData
       });
     }
 
@@ -458,10 +469,14 @@ export class AdminService {
     const parent = await prisma.parent.findUnique({ where: { id: parentId }, include: { user: true } });
     if (!parent) throw new Error('Parent not found');
 
-    if (data.name || data.email) {
+    const updateData: any = {};
+    if (data.name) updateData.name = data.name;
+    if (data.email) updateData.email = data.email;
+
+    if (Object.keys(updateData).length > 0) {
       await prisma.user.update({
         where: { id: parent.userId },
-        data: { name: data.name, email: data.email }
+        data: updateData
       });
     }
 
@@ -482,9 +497,13 @@ export class AdminService {
     const subject = await prisma.subject.findUnique({ where: { id: subjectId } });
     if (!subject) throw new Error('Subject not found');
 
+    const updateData: any = {};
+    if (data.name) updateData.name = data.name;
+    if (data.code) updateData.code = data.code;
+
     return await prisma.subject.update({
       where: { id: subjectId },
-      data: { name: data.name, code: data.code }
+      data: updateData
     });
   }
 
@@ -493,9 +512,13 @@ export class AdminService {
     const classExists = await prisma.class.findUnique({ where: { id: classId } });
     if (!classExists) throw new Error('Class not found');
 
+    const updateData: any = {};
+    if (data.name) updateData.name = data.name;
+    if (data.teacherId !== undefined) updateData.teacherId = data.teacherId;
+
     return await prisma.class.update({
       where: { id: classId },
-      data: { name: data.name, teacherId: data.teacherId }
+      data: updateData
     });
   }
 

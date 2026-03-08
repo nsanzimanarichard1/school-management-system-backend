@@ -611,11 +611,11 @@ router.delete('/subjects/:id', authenticate, authorize('ADMIN'), adminController
 /**
  * @swagger
  * /api/admin/teachers/{id}:
- *   put:
+ *   patch:
  *     summary: Update teacher
  *     tags: [Admin - User Management]
  */
-router.put('/teachers/:id', authenticate, authorize('ADMIN'), adminController.updateTeacher);
+router.patch('/teachers/:id', authenticate, authorize('ADMIN'), adminController.updateTeacher);
 
 /**
  * @swagger
@@ -629,11 +629,11 @@ router.delete('/teachers/:id', authenticate, authorize('ADMIN'), adminController
 /**
  * @swagger
  * /api/admin/students/{id}:
- *   put:
+ *   patch:
  *     summary: Update student
  *     tags: [Admin - User Management]
  */
-router.put('/students/:id', authenticate, authorize('ADMIN'), adminController.updateStudent);
+router.patch('/students/:id', authenticate, authorize('ADMIN'), adminController.updateStudent);
 
 /**
  * @swagger
@@ -647,11 +647,11 @@ router.delete('/students/:id', authenticate, authorize('ADMIN'), adminController
 /**
  * @swagger
  * /api/admin/parents/{id}:
- *   put:
+ *   patch:
  *     summary: Update parent
  *     tags: [Admin - User Management]
  */
-router.put('/parents/:id', authenticate, authorize('ADMIN'), adminController.updateParent);
+router.patch('/parents/:id', authenticate, authorize('ADMIN'), adminController.updateParent);
 
 /**
  * @swagger
@@ -665,29 +665,29 @@ router.delete('/parents/:id', authenticate, authorize('ADMIN'), adminController.
 /**
  * @swagger
  * /api/admin/subjects/{id}:
- *   put:
+ *   patch:
  *     summary: Update subject
  *     tags: [Admin - Academic Setup]
  */
-router.put('/subjects/:id', authenticate, authorize('ADMIN'), adminController.updateSubject);
+router.patch('/subjects/:id', authenticate, authorize('ADMIN'), adminController.updateSubject);
 
 /**
  * @swagger
  * /api/admin/classes/{id}:
- *   put:
+ *   patch:
  *     summary: Update class
  *     tags: [Admin - Academic Setup]
  */
-router.put('/classes/:id', authenticate, authorize('ADMIN'), adminController.updateClass);
+router.patch('/classes/:id', authenticate, authorize('ADMIN'), adminController.updateClass);
 
 /**
  * @swagger
  * /api/admin/grades/{id}:
- *   put:
+ *   patch:
  *     summary: Update grade
  *     tags: [Admin - Academic Records]
  */
-router.put('/grades/:id', authenticate, authorize('ADMIN'), managementController.updateGrade);
+router.patch('/grades/:id', authenticate, authorize('ADMIN'), managementController.updateGrade);
 
 /**
  * @swagger
@@ -701,11 +701,11 @@ router.delete('/grades/:id', authenticate, authorize('ADMIN'), managementControl
 /**
  * @swagger
  * /api/admin/attendance/{id}:
- *   put:
+ *   patch:
  *     summary: Update attendance
  *     tags: [Admin - Academic Records]
  */
-router.put('/attendance/:id', authenticate, authorize('ADMIN'), managementController.updateAttendance);
+router.patch('/attendance/:id', authenticate, authorize('ADMIN'), managementController.updateAttendance);
 
 /**
  * @swagger
@@ -719,11 +719,11 @@ router.delete('/attendance/:id', authenticate, authorize('ADMIN'), adminControll
 /**
  * @swagger
  * /api/admin/timetable/{id}:
- *   put:
+ *   patch:
  *     summary: Update timetable
  *     tags: [Admin - Academic Records]
  */
-router.put('/timetable/:id', authenticate, authorize('ADMIN'), managementController.updateTimetable);
+router.patch('/timetable/:id', authenticate, authorize('ADMIN'), managementController.updateTimetable);
 
 /**
  * @swagger
