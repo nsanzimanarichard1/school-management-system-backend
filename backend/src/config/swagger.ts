@@ -14,8 +14,10 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: 'http://localhost:4000',
-        description: 'Development server'
+        url: process.env.NODE_ENV === 'production' 
+          ? 'https://school-management-system-backend-1-g6hv.onrender.com'
+          : 'http://localhost:4000',
+        description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Development server'
       }
     ],
     components: {
@@ -37,3 +39,4 @@ const options: swaggerJsdoc.Options = {
 };
 
 export const swaggerSpec = swaggerJsdoc(options);
+
