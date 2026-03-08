@@ -542,6 +542,198 @@ router.delete('/users/:id', authenticate, authorize('ADMIN'), adminController.de
  */
 router.delete('/classes/:id', authenticate, authorize('ADMIN'), adminController.deleteClass);
 
+// ==================== ACADEMIC RECORDS (ADMIN VIEW) ====================
+
+/**
+ * @swagger
+ * /api/admin/grades:
+ *   get:
+ *     summary: Get all grades
+ *     tags: [Admin - Academic Records]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Grades retrieved
+ */
+router.get('/grades', authenticate, authorize('ADMIN'), adminController.getAllGrades);
+
+/**
+ * @swagger
+ * /api/admin/attendance:
+ *   get:
+ *     summary: Get all attendance records
+ *     tags: [Admin - Academic Records]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Attendance records retrieved
+ */
+router.get('/attendance', authenticate, authorize('ADMIN'), adminController.getAllAttendance);
+
+/**
+ * @swagger
+ * /api/admin/timetable:
+ *   get:
+ *     summary: Get all timetable entries
+ *     tags: [Admin - Academic Records]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Timetable retrieved
+ */
+router.get('/timetable', authenticate, authorize('ADMIN'), adminController.getAllTimetable);
+
+/**
+ * @swagger
+ * /api/admin/subjects/{id}:
+ *   delete:
+ *     summary: Delete a subject
+ *     tags: [Admin - Academic Setup]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Subject deleted
+ */
+router.delete('/subjects/:id', authenticate, authorize('ADMIN'), adminController.deleteSubject);
+
+// ==================== ADMIN EDIT/UPDATE OPERATIONS ====================
+
+/**
+ * @swagger
+ * /api/admin/teachers/{id}:
+ *   put:
+ *     summary: Update teacher
+ *     tags: [Admin - User Management]
+ */
+router.put('/teachers/:id', authenticate, authorize('ADMIN'), adminController.updateTeacher);
+
+/**
+ * @swagger
+ * /api/admin/teachers/{id}:
+ *   delete:
+ *     summary: Delete teacher
+ *     tags: [Admin - User Management]
+ */
+router.delete('/teachers/:id', authenticate, authorize('ADMIN'), adminController.deleteTeacher);
+
+/**
+ * @swagger
+ * /api/admin/students/{id}:
+ *   put:
+ *     summary: Update student
+ *     tags: [Admin - User Management]
+ */
+router.put('/students/:id', authenticate, authorize('ADMIN'), adminController.updateStudent);
+
+/**
+ * @swagger
+ * /api/admin/students/{id}:
+ *   delete:
+ *     summary: Delete student
+ *     tags: [Admin - User Management]
+ */
+router.delete('/students/:id', authenticate, authorize('ADMIN'), adminController.deleteStudent);
+
+/**
+ * @swagger
+ * /api/admin/parents/{id}:
+ *   put:
+ *     summary: Update parent
+ *     tags: [Admin - User Management]
+ */
+router.put('/parents/:id', authenticate, authorize('ADMIN'), adminController.updateParent);
+
+/**
+ * @swagger
+ * /api/admin/parents/{id}:
+ *   delete:
+ *     summary: Delete parent
+ *     tags: [Admin - User Management]
+ */
+router.delete('/parents/:id', authenticate, authorize('ADMIN'), adminController.deleteParent);
+
+/**
+ * @swagger
+ * /api/admin/subjects/{id}:
+ *   put:
+ *     summary: Update subject
+ *     tags: [Admin - Academic Setup]
+ */
+router.put('/subjects/:id', authenticate, authorize('ADMIN'), adminController.updateSubject);
+
+/**
+ * @swagger
+ * /api/admin/classes/{id}:
+ *   put:
+ *     summary: Update class
+ *     tags: [Admin - Academic Setup]
+ */
+router.put('/classes/:id', authenticate, authorize('ADMIN'), adminController.updateClass);
+
+/**
+ * @swagger
+ * /api/admin/grades/{id}:
+ *   put:
+ *     summary: Update grade
+ *     tags: [Admin - Academic Records]
+ */
+router.put('/grades/:id', authenticate, authorize('ADMIN'), managementController.updateGrade);
+
+/**
+ * @swagger
+ * /api/admin/grades/{id}:
+ *   delete:
+ *     summary: Delete grade
+ *     tags: [Admin - Academic Records]
+ */
+router.delete('/grades/:id', authenticate, authorize('ADMIN'), managementController.deleteGrade);
+
+/**
+ * @swagger
+ * /api/admin/attendance/{id}:
+ *   put:
+ *     summary: Update attendance
+ *     tags: [Admin - Academic Records]
+ */
+router.put('/attendance/:id', authenticate, authorize('ADMIN'), managementController.updateAttendance);
+
+/**
+ * @swagger
+ * /api/admin/attendance/{id}:
+ *   delete:
+ *     summary: Delete attendance
+ *     tags: [Admin - Academic Records]
+ */
+router.delete('/attendance/:id', authenticate, authorize('ADMIN'), adminController.deleteAttendance);
+
+/**
+ * @swagger
+ * /api/admin/timetable/{id}:
+ *   put:
+ *     summary: Update timetable
+ *     tags: [Admin - Academic Records]
+ */
+router.put('/timetable/:id', authenticate, authorize('ADMIN'), managementController.updateTimetable);
+
+/**
+ * @swagger
+ * /api/admin/timetable/{id}:
+ *   delete:
+ *     summary: Delete timetable
+ *     tags: [Admin - Academic Records]
+ */
+router.delete('/timetable/:id', authenticate, authorize('ADMIN'), managementController.deleteTimetable);
+
 /**
  * @swagger
  * /api/admin/students:

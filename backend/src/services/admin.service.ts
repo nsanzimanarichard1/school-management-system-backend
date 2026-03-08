@@ -326,6 +326,186 @@ export class AdminService {
 
     await prisma.class.delete({ where: { id: classId } });
   }
+
+  // Get all grades
+  async getAllGrades() {
+    return await prisma.grade.findMany({
+      include: {
+        student: {
+          include: {
+            user: {
+              select: { name: true, email: true }
+            },
+            class: {
+              select: { name: true }
+            }
+          }
+        },
+        subject: {
+          select: { name: true, code: true }
+        }
+      },
+      orderBy: { term: 'desc' }
+    });
+  }
+
+  // Get all attendance
+  async getAllAttendance() {
+    return await prisma.attendance.findMany({
+      include: {
+        student: {
+          include: {
+            user: {
+              select: { name: true, email: true }
+            },
+            class: {
+              select: { name: true }
+            }
+          }
+        }
+      },
+      orderBy: { date: 'desc' }
+    });
+  }
+
+  // Get all timetable
+  async getAllTimetable() {
+    return await prisma.timetable.findMany({
+      include: {
+        class: {
+          select: { name: true }
+        },
+        subject: {
+          select: { name: true, code: true }
+        },
+        teacher: {
+          include: {
+            user: {
+              select: { name: true }
+            }
+          }
+        }
+      },
+      orderBy: [{ day: 'asc' }, { startTime: 'asc' }]
+    });
+  }
+
+  // Delete subject
+  async deleteSubject(subjectId: string) {
+    const subject = await prisma.subject.findUnique({ where: { id: subjectId } });
+    if (!subject) throw new Error('Subject not found');
+
+    await prisma.subject.delete({ where: { id: subjectId } });
+  }
+
+  // Update teacher
+  async updateTeacher(teacherId: string, data: any) {
+    const teacher = await prisma.teacher.findUnique({ where: { id: teacherId }, include: { user: true } });
+    if (!teacher) throw new Error('Teacher not found');
+
+    if (data.name || data.email) {
+      await prisma.user.update({
+        where: { id: teacher.userId },
+        data: { name: data.name, email: data.email }
+      });
+    }
+
+    return await prisma.teacher.findUnique({ where: { id: teacherId }, include: { user: true } });
+  }
+
+  // Delete teacher
+  async deleteTeacher(teacherId: string) {
+    const teacher = await prisma.teacher.findUnique({ where: { id: teacherId } });
+    if (!teacher) throw new Error('Teacher not found');
+
+    await prisma.teacher.delete({ where: { id: teacherId } });
+    await prisma.user.delete({ where: { id: teacher.userId } });
+  }
+
+  // Update student
+  async updateStudent(studentId: string, data: any) {
+    const student = await prisma.student.findUnique({ where: { id: studentId }, include: { user: true } });
+    if (!student) throw new Error('Student not found');
+
+    if (data.name || data.email) {
+      await prisma.user.update({
+        where: { id: student.userId },
+        data: { name: data.name, email: data.email }
+      });
+    }
+
+    if (data.classId) {
+      await prisma.student.update({
+        where: { id: studentId },
+        data: { classId: data.classId }
+      });
+    }
+
+    return await prisma.student.findUnique({ where: { id: studentId }, include: { user: true, class: true } });
+  }
+
+  // Delete student
+  async deleteStudent(studentId: string) {
+    const student = await prisma.student.findUnique({ where: { id: studentId } });
+    if (!student) throw new Error('Student not found');
+
+    await prisma.student.delete({ where: { id: studentId } });
+    await prisma.user.delete({ where: { id: student.userId } });
+  }
+
+  // Update parent
+  async updateParent(parentId: string, data: any) {
+    const parent = await prisma.parent.findUnique({ where: { id: parentId }, include: { user: true } });
+    if (!parent) throw new Error('Parent not found');
+
+    if (data.name || data.email) {
+      await prisma.user.update({
+        where: { id: parent.userId },
+        data: { name: data.name, email: data.email }
+      });
+    }
+
+    return await prisma.parent.findUnique({ where: { id: parentId }, include: { user: true } });
+  }
+
+  // Delete parent
+  async deleteParent(parentId: string) {
+    const parent = await prisma.parent.findUnique({ where: { id: parentId } });
+    if (!parent) throw new Error('Parent not found');
+
+    await prisma.parent.delete({ where: { id: parentId } });
+    await prisma.user.delete({ where: { id: parent.userId } });
+  }
+
+  // Update subject
+  async updateSubject(subjectId: string, data: any) {
+    const subject = await prisma.subject.findUnique({ where: { id: subjectId } });
+    if (!subject) throw new Error('Subject not found');
+
+    return await prisma.subject.update({
+      where: { id: subjectId },
+      data: { name: data.name, code: data.code }
+    });
+  }
+
+  // Update class
+  async updateClass(classId: string, data: any) {
+    const classExists = await prisma.class.findUnique({ where: { id: classId } });
+    if (!classExists) throw new Error('Class not found');
+
+    return await prisma.class.update({
+      where: { id: classId },
+      data: { name: data.name, teacherId: data.teacherId }
+    });
+  }
+
+  // Delete attendance
+  async deleteAttendance(attendanceId: string) {
+    const attendance = await prisma.attendance.findUnique({ where: { id: attendanceId } });
+    if (!attendance) throw new Error('Attendance not found');
+
+    await prisma.attendance.delete({ where: { id: attendanceId } });
+  }
 }
 
 export default new AdminService();

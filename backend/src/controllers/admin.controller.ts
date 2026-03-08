@@ -68,6 +68,81 @@ export class AdminController {
     await adminService.deleteClass(id);
     res.json({ success: true, message: 'Class deleted successfully' });
   });
+
+  getAllGrades = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const grades = await adminService.getAllGrades();
+    res.json({ success: true, data: grades });
+  });
+
+  getAllAttendance = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const attendance = await adminService.getAllAttendance();
+    res.json({ success: true, data: attendance });
+  });
+
+  getAllTimetable = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const timetable = await adminService.getAllTimetable();
+    res.json({ success: true, data: timetable });
+  });
+
+  deleteSubject = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    await adminService.deleteSubject(id);
+    res.json({ success: true, message: 'Subject deleted successfully' });
+  });
+
+  updateTeacher = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const teacher = await adminService.updateTeacher(id, req.body);
+    res.json({ success: true, message: 'Teacher updated successfully', data: teacher });
+  });
+
+  deleteTeacher = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    await adminService.deleteTeacher(id);
+    res.json({ success: true, message: 'Teacher deleted successfully' });
+  });
+
+  updateStudent = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const student = await adminService.updateStudent(id, req.body);
+    res.json({ success: true, message: 'Student updated successfully', data: student });
+  });
+
+  deleteStudent = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    await adminService.deleteStudent(id);
+    res.json({ success: true, message: 'Student deleted successfully' });
+  });
+
+  updateParent = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const parent = await adminService.updateParent(id, req.body);
+    res.json({ success: true, message: 'Parent updated successfully', data: parent });
+  });
+
+  deleteParent = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    await adminService.deleteParent(id);
+    res.json({ success: true, message: 'Parent deleted successfully' });
+  });
+
+  updateSubject = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const subject = await adminService.updateSubject(id, req.body);
+    res.json({ success: true, message: 'Subject updated successfully', data: subject });
+  });
+
+  updateClass = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const classData = await adminService.updateClass(id, req.body);
+    res.json({ success: true, message: 'Class updated successfully', data: classData });
+  });
+
+  deleteAttendance = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    await adminService.deleteAttendance(id);
+    res.json({ success: true, message: 'Attendance deleted successfully' });
+  });
 }
 
 export default new AdminController();
