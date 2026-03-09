@@ -8,6 +8,7 @@ export interface RegisterInputDTO {
   role: 'STUDENT' | 'PARENT';
   deviceId: string;
   phone?: string;
+  gender?: string;
 }
 
 export interface LoginInputDTO {

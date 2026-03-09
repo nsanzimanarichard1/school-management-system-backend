@@ -47,6 +47,7 @@ model User {
   passwordHash String
   role         Role
   phone        String?
+  gender       String?
   createdAt    DateTime @default(now())
 
   devices Device[]

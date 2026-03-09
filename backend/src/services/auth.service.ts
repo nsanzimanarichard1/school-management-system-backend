@@ -3,6 +3,7 @@ import { hashPassword, comparePassword } from '../utils/hash';
 import { generateToken } from '../utils/jwt';
 import { RegisterInputDTO, LoginInputDTO } from '../dtos/auth.dto';
 import notificationService from './notification.service';
+import emailService from './email.service';
 
 export class AuthService {
   async register(data: RegisterInputDTO) {
@@ -25,7 +26,8 @@ export class AuthService {
         name: data.name,
         passwordHash,
         role: data.role,
-        phone: data.phone
+        phone: data.phone,
+        gender: data.gender
       }
     });
 
@@ -37,6 +39,9 @@ export class AuthService {
         verified: false
       }
     });
+
+    // Send registration email
+    await emailService.sendRegistrationEmail(user.email, user.name, device.deviceId);
 
     // Create Student or Parent record
     if (data.role === 'STUDENT') {

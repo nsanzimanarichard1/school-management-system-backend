@@ -1,5 +1,6 @@
 import prisma from '../config/database';
 import notificationService from './notification.service';
+import emailService from './email.service';
 
 export class AdminService {
   // Verify device
@@ -24,6 +25,9 @@ export class AdminService {
       'DEVICE_VERIFIED',
       'Your device has been verified by admin. You can now log in.'
     );
+
+    // Send approval email
+    await emailService.sendDeviceApprovalEmail(device.user.email, device.user.name);
 
     return updatedDevice;
   }
